@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-mapa="ruby">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -296,6 +296,46 @@
   <a href="https://pay.hotmart.com/T107698113O?off=yu4z9ceg&offDiscount=LAUNCH" data-goatcounter-click="ruby-comprar-5">Get my book</a>
 </div>
 
+<script>
+/* Mapa da visita (GoatCounter): até onde rolou, quanto tempo ficou, se saiu sem clicar. */
+(function(){
+  var P = document.documentElement.getAttribute('data-mapa') || 'pagina';
+  var enviados = {}, ultima = 'topo', clicou = false, seg = 0;
+  function conta(nome){
+    if (enviados[nome]) return; enviados[nome] = 1;
+    var tenta = function(n){
+      if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path: P + '-' + nome, title: nome, event: true});
+      else if (n < 20) setTimeout(function(){ tenta(n + 1); }, 500);
+    };
+    tenta(0);
+  }
+  var hs = document.querySelectorAll('section h2');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        var i = e.target.getAttribute('data-i');
+        ultima = 'secao' + i;
+        conta('viu-secao' + i);
+        obs.unobserve(e.target);
+      });
+    }, {threshold: 0.6});
+    hs.forEach(function(h, i){ var n = (i + 1 < 10 ? '0' : '') + (i + 1); h.setAttribute('data-i', n); obs.observe(h); });
+  }
+  var marcos = {10:'tempo-10s', 30:'tempo-30s', 60:'tempo-1min', 120:'tempo-2min', 300:'tempo-5min'};
+  setInterval(function(){
+    if (document.visibilityState !== 'visible') return;
+    seg++; if (marcos[seg]) conta(marcos[seg]);
+  }, 1000);
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href*="hotmart"]');
+    if (a) clicou = true;
+  }, true);
+  window.addEventListener('pagehide', function(){
+    if (!clicou) conta('saiu-sem-clicar-na-' + ultima);
+  });
+})();
+</script>
 <script data-goatcounter="https://skinnerstudio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
